@@ -1,2 +1,2 @@
-# chilling.javascript.lion
-chilling.javascript.lion
+# chilling.javascript.panda
+chilling.javascript.panda
