@@ -217,12 +217,15 @@ Lion = function(){
   this.maneParts = [];
   this.threegroup = new THREE.Group();
   this.yellowMat = new THREE.MeshLambertMaterial ({
-    color: 0xfdd276, 
+    color: 0xffffff, 
     shading:THREE.FlatShading
   });
+
   this.redMat = new THREE.MeshLambertMaterial ({
-    color: 0xad3525, 
-    shading:THREE.FlatShading
+    color: 0x0000ff, 
+    shading:THREE.SmoothShading,
+    transparent: true,
+    opacity: 0
   });
   
   this.pinkMat = new THREE.MeshLambertMaterial ({
@@ -234,84 +237,90 @@ Lion = function(){
     color: 0xffffff, 
     shading:THREE.FlatShading
   });
+
+  this.greyBodyMat = new THREE.MeshLambertMaterial ({
+    color: 0x474747, 
+    shading:THREE.FlatShading
+  });
   
+  //Ojos
   this.purpleMat = new THREE.MeshLambertMaterial ({
-    color: 0x451954, 
+    color: 0xffffff, 
     shading:THREE.FlatShading
   });
-  
+  //Nariz
   this.greyMat = new THREE.MeshLambertMaterial ({
-    color: 0x653f4c, 
+    color: 0x000000, 
     shading:THREE.FlatShading
   });
-  
+  //boca
   this.blackMat = new THREE.MeshLambertMaterial ({
-    color: 0x302925, 
+    color: 0x000000, 
     shading:THREE.FlatShading
   });
   
   
-  var bodyGeom = new THREE.CylinderGeometry(30,80, 140, 4);
+  var bodyGeom = new THREE.CylinderGeometry(60,100, 140, 4);
   var maneGeom = new THREE.BoxGeometry(40,40,15);
   var faceGeom = new THREE.BoxGeometry(80,80,80);
   var spotGeom = new THREE.BoxGeometry(4,4,4);
-  var mustacheGeom = new THREE.BoxGeometry(30,2,1);
+  var mustacheGeom = new THREE.BoxGeometry(0,0,0);
   mustacheGeom.applyMatrix( new THREE.Matrix4().makeTranslation( 15, 0, 0 ) );
   
-  var earGeom = new THREE.BoxGeometry(20,20,20);
-  var noseGeom = new THREE.BoxGeometry(40,40,20);
-  var eyeGeom = new THREE.BoxGeometry(5,30,30);
+  var earGeom = new THREE.BoxGeometry(20,20,10);
+  var noseGeom = new THREE.BoxGeometry(30,31,20);
+  var eyeGeom = new THREE.BoxGeometry(5,40,30);
   var irisGeom = new THREE.BoxGeometry(4,10,10);
   var mouthGeom = new THREE.BoxGeometry(20,20,10);
   var smileGeom = new THREE.TorusGeometry( 12, 4, 2, 10, Math.PI );
-  var lipsGeom = new THREE.BoxGeometry(40,15,20);
-  var kneeGeom = new THREE.BoxGeometry(25, 80, 80);
+  var lipsGeom = new THREE.BoxGeometry(0,0,0);
+  var kneeGeom = new THREE.BoxGeometry(35, 80, 80);
   kneeGeom.applyMatrix( new THREE.Matrix4().makeTranslation( 0, 50, 0 ) );
   var footGeom = new THREE.BoxGeometry(40, 20, 20);
   
   // body
-  this.body = new THREE.Mesh(bodyGeom, this.yellowMat);
+  this.body = new THREE.Mesh(bodyGeom, this.greyBodyMat);
   this.body.position.z = -60;
   this.body.position.y = -30;
   this.bodyVertices = [0,1,2,3,4,10];
   
   for (var i=0;i<this.bodyVertices.length; i++){
     var tv = this.body.geometry.vertices[this.bodyVertices[i]];
-    tv.z =70;
+    tv.z =10;
     //tv.x = 0;
     this.bodyInitPositions.push({x:tv.x, y:tv.y, z:tv.z});
   }
   
   // knee
-  this.leftKnee = new THREE.Mesh(kneeGeom, this.yellowMat);
+  this.leftKnee = new THREE.Mesh(kneeGeom, this.greyBodyMat);
   this.leftKnee.position.x = 65;
   this.leftKnee.position.z = -20;
   this.leftKnee.position.y = -110;
   this.leftKnee.rotation.z = -.3;
   
-  this.rightKnee = new THREE.Mesh(kneeGeom, this.yellowMat);
+  this.rightKnee = new THREE.Mesh(kneeGeom, this.greyBodyMat);
   this.rightKnee.position.x = -65;
   this.rightKnee.position.z = -20;
   this.rightKnee.position.y = -110;
   this.rightKnee.rotation.z = .3;
   
   // feet
-  this.backLeftFoot = new THREE.Mesh(footGeom, this.yellowMat);
+  this.backLeftFoot = new THREE.Mesh(footGeom, this.blackMat);
   this.backLeftFoot.position.z = 30;
   this.backLeftFoot.position.x = 75;
   this.backLeftFoot.position.y = -90;
   
-  this.backRightFoot = new THREE.Mesh(footGeom, this.yellowMat);
+  this.backRightFoot = new THREE.Mesh(footGeom, this.blackMat);
   this.backRightFoot.position.z = 30;
   this.backRightFoot.position.x = -75;
   this.backRightFoot.position.y = -90;
   
-  this.frontRightFoot = new THREE.Mesh(footGeom, this.yellowMat);
+  this.frontRightFoot = new THREE.Mesh(footGeom, this.blackMat);
   this.frontRightFoot.position.z = 40;
   this.frontRightFoot.position.x = -22;
   this.frontRightFoot.position.y = -90;
   
-  this.frontLeftFoot = new THREE.Mesh(footGeom, this.yellowMat);
+  this.frontLeftFoot = new THREE.Mesh(footGeom, this.blackMat);
   this.frontLeftFoot.position.z = 40;
   this.frontLeftFoot.position.x = 22;
   this.frontLeftFoot.position.y = -90;
@@ -362,7 +371,7 @@ Lion = function(){
   
   this.mustaches = [];
   
-  this.mustache1 = new THREE.Mesh(mustacheGeom, this.greyMat);
+  this.mustache1 = new THREE.Mesh(mustacheGeom, this.redMat);
   this.mustache1.position.x = 30;
   this.mustache1.position.y = -5;
   this.mustache1.position.z = 175; 
@@ -375,11 +384,11 @@ Lion = function(){
   this.mustache4 = this.mustache1.clone();
   this.mustache4.rotation.z = Math.PI;
   this.mustache4.position.x = -30;
-  this.mustache5 = new THREE.Mesh(mustacheGeom, this.blackMat);
+  this.mustache5 = new THREE.Mesh(mustacheGeom, this.redMat);
   this.mustache5 = this.mustache2.clone();
   this.mustache5.rotation.z = Math.PI;
   this.mustache5.position.x = -35;
-  this.mustache6 = new THREE.Mesh(mustacheGeom, this.blackMat);
+  this.mustache6 = new THREE.Mesh(mustacheGeom, this.redMat);
   this.mustache6 = this.mustache3.clone();
   this.mustache6.rotation.z = Math.PI;
   this.mustache6.position.x = -30;
@@ -418,23 +427,23 @@ Lion = function(){
   this.spot8.position.x = -39;
     
   // eyes
-  this.leftEye = new THREE.Mesh(eyeGeom, this.whiteMat);
+  this.leftEye = new THREE.Mesh(eyeGeom, this.blackMat);
   this.leftEye.position.x = 40;
   this.leftEye.position.z = 120;
   this.leftEye.position.y = 25;
   
-  this.rightEye = new THREE.Mesh(eyeGeom, this.whiteMat);
+  this.rightEye = new THREE.Mesh(eyeGeom, this.blackMat);
   this.rightEye.position.x = -40;
   this.rightEye.position.z = 120;
   this.rightEye.position.y = 25;
   
   // iris
-  this.leftIris = new THREE.Mesh(irisGeom, this.purpleMat);
+  this.leftIris = new THREE.Mesh(irisGeom, this.whiteMat);
   this.leftIris.position.x = 42;
   this.leftIris.position.z = 120;
   this.leftIris.position.y = 25;
   
-  this.rightIris = new THREE.Mesh(irisGeom, this.purpleMat);
+  this.rightIris = new THREE.Mesh(irisGeom, this.whiteMat);
   this.rightIris.position.x = -42;
   this.rightIris.position.z = 120;
   this.rightIris.position.y = 25;
@@ -446,24 +455,24 @@ Lion = function(){
   this.mouth.scale.set(.5,.5,1);
   
   // smile
-  this.smile = new THREE.Mesh(smileGeom, this.greyMat);
+  this.smile = new THREE.Mesh(smileGeom, this.blackMat);
   this.smile.position.z = 173;  
   this.smile.position.y = -15;
   this.smile.rotation.z = -Math.PI;
   
   // lips
-  this.lips = new THREE.Mesh(lipsGeom, this.yellowMat);
+  this.lips = new THREE.Mesh(lipsGeom, this.whiteMat);
   this.lips.position.z = 165;
   this.lips.position.y = -45;
   
    
   // ear
-  this.rightEar = new THREE.Mesh(earGeom, this.yellowMat);
+  this.rightEar = new THREE.Mesh(earGeom, this.blackMat);
   this.rightEar.position.x = -50;
   this.rightEar.position.y = 50;
   this.rightEar.position.z = 105;
   
-  this.leftEar = new THREE.Mesh(earGeom, this.yellowMat);
+  this.leftEar = new THREE.Mesh(earGeom, this.blackMat);
   this.leftEar.position.x = 50;
   this.leftEar.position.y = 50;
   this.leftEar.position.z = 105;
